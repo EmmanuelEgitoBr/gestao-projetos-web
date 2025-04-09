@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gestao.Projetos.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/projects")]
     [ApiController]
     public class ProjectsController : ControllerBase
     {
@@ -45,7 +45,7 @@ namespace Gestao.Projetos.Api.Controllers
             return Ok(projectDto);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             await _projectService.DeleteProjectAsync(id);

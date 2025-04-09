@@ -29,13 +29,6 @@ public class PersonsController : ControllerBase
         return result!;
     }
 
-    [HttpPost("associate/{personId}/{projectId}")]
-    public async Task<IActionResult> Associate(string personId, string projectId)
-    {
-        await _personService.AssociateProjectToPersonAsync(personId, projectId);
-        return Ok();
-    }
-
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] PersonDto personDto)
     {
@@ -51,7 +44,7 @@ public class PersonsController : ControllerBase
         return Ok(personDto);
     }
 
-    [HttpPost("delete/{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete(string id)
     {
         await _personService.DeletePersonAsync(id);
