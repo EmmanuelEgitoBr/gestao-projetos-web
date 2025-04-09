@@ -1,3 +1,4 @@
+using Gestao.Projetos.Web;
 using Gestao.Projetos.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.ApplyIoC(builder.Configuration);
 
 var app = builder.Build();
 
