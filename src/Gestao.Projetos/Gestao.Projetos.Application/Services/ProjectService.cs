@@ -6,7 +6,7 @@ using Gestao.Projetos.Domain.Interfaces;
 
 namespace Gestao.Projetos.Application.Services;
 
-internal class ProjectService : IProjectService
+public class ProjectService : IProjectService
 {
     private IMapper _mapper;
     private readonly IProjectRepository _projectRepository;

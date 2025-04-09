@@ -31,4 +31,11 @@ public class PersonRepository : IPersonRepository
 
     public async Task DeleteAsync(string id) =>
         await _personCollection.DeleteOneAsync(c => c.Id == id);
+
+    public async Task AssociateProjectToPersonAsync(string personId, string projectId)
+    {
+        var person = await _personCollection.Find(c => c.Id == personId).FirstOrDefaultAsync();
+        person.ProjectId = projectId;
+        await _personCollection.ReplaceOneAsync(c => c.Id == personId, person);
+    }
 }

@@ -45,4 +45,9 @@ public class PersonService : IPersonService
         var personEntity = _mapper.Map<Person>(updatedPerson);
         await _personRepository.UpdateAsync(id, personEntity);
     }
+
+    public async Task AssociateProjectToPersonAsync(string personId, string projectId)
+    {
+        await _personRepository.AssociateProjectToPersonAsync(personId, projectId);
+    }
 }

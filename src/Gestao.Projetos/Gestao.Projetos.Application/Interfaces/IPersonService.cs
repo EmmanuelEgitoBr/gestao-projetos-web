@@ -4,6 +4,7 @@ namespace Gestao.Projetos.Application.Interfaces;
 
 public interface IPersonService
 {
+    Task AssociateProjectToPersonAsync(string personId, string projectId);
     Task<List<PersonDto>> GetAllPersonsAsync();
     Task<PersonDto?> GetPersonByIdAsync(string id);
     Task CreatePersonAsync(PersonDto person);
