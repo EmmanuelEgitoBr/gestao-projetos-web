@@ -1,7 +1,64 @@
 ﻿@page "/project"
+@using Gestao.Projetos.Web.Models
+@using Gestao.Projetos.Web.Services.Interfaces
+@using System.Text.Json
+@using Newtonsoft.Json.Linq
+@inject IProjectService _projectService
 
-<h3>Project</h3>
+<h3>Gestão de Projetos</h3>
+<hr />
+
+<a class="btn btn-primary mb-3" href="/projects/create"><i class="bi bi-plus"></i> Novo Projeto</a>
+
+@if (projects == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Data Criação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in projects)
+            {
+                <tr>
+                    <td>@project.Title</td>
+                    <td>@project.CreatedDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn btn-sm btn-success" href="/projects/details/@project.Id"><i class="bi bi-info-circle"></i> Detalhes</a>
+                        <button class="btn btn-sm btn-danger" @onclick="() => Excluir(project.Id!)"><i class="bi bi-trash"></i> Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
+    List<ProjectDto>? projects;
+    ResponseDto? response;
 
+    protected override async Task OnInitializedAsync()
+    {
+        response = await _projectService.GetAllProjectsAsync();
+        JArray jArray = (JArray)response.Result!;
+        projects = jArray.ToObject<List<ProjectDto>>()!;
+    }
+
+    async Task Excluir(string id)
+    {
+        var confirmado = await _projectService.DeleteProjectAsync(id);
+        if (confirmado.IsSuccess)
+        {
+            response = await _projectService.GetAllProjectsAsync();
+            JArray jArray = (JArray)response.Result!;
+            projects = jArray.ToObject<List<ProjectDto>>()!;
+        }
+    }
 }

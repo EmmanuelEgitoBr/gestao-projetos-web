@@ -5,9 +5,9 @@
 @using Newtonsoft.Json.Linq
 @inject IPersonService _personService
 
-<h3>Gestão de pessoas</h3>
-
-<a class="btn btn-primary mb-3" href="/persons/create">Nova Pessoa</a>
+<h3>Gestão de Pessoas</h3>
+<hr />
+<a class="btn btn-primary mb-3" href="/persons/create"><i class="bi bi-plus"></i> Nova Pessoa</a>
 
 @if (persons == null)
 {
@@ -30,9 +30,9 @@ else
                     <td>@person.Name</td>
                     <td>@person.Position</td>
                     <td>
-                        <a class="btn btn-sm btn-success" href="/persons/details/@person.Id">Detalhes</a>
-                        <a class="btn btn-sm btn-warning" href="/persons/edit/@person.Id">Editar</a>
-                        <button class="btn btn-sm btn-danger" @onclick="() => Excluir(person.Id!)">Excluir</button>
+                        <a class="btn btn-sm btn-success" href="/persons/details/@person.Id"><i class="bi bi-info-circle"></i> Detalhes</a>
+                        <a class="btn btn-sm btn-warning" href="/persons/edit/@person.Id"><i class="bi bi-pencil-square"></i> Editar</a>
+                        <button class="btn btn-sm btn-danger" @onclick="() => Excluir(person.Id!)"><i class="bi bi-trash"></i> Excluir</button>
                     </td>
                 </tr>
             }
