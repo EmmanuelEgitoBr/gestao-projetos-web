@@ -1,0 +1,64 @@
+﻿@page "/person"
+@using Gestao.Projetos.Web.Models
+@using Gestao.Projetos.Web.Services.Interfaces
+@using System.Text.Json
+@using Newtonsoft.Json.Linq
+@inject IPersonService _personService
+
+<h3>Gestão de pessoas</h3>
+
+<a class="btn btn-primary mb-3" href="/persons/create">Nova Pessoa</a>
+
+@if (persons == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in persons)
+            {
+                <tr>
+                    <td>@person.Name</td>
+                    <td>@person.Position</td>
+                    <td>
+                        <a class="btn btn-sm btn-success" href="/persons/details/@person.Id">Detalhes</a>
+                        <a class="btn btn-sm btn-warning" href="/persons/edit/@person.Id">Editar</a>
+                        <button class="btn btn-sm btn-danger" @onclick="() => Excluir(person.Id!)">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<PersonDto>? persons;
+    ResponseDto? response;
+
+    protected override async Task OnInitializedAsync()
+    {
+        response = await _personService.GetAllPersonsAsync();
+        JArray jArray = (JArray)response.Result!;
+        persons = jArray.ToObject<List<PersonDto>>()!;
+    }
+
+    async Task Excluir(string id)
+    {
+        var confirmado = await _personService.DeletePersonAsync(id);
+        if (confirmado.IsSuccess)
+        {
+            response = await _personService.GetAllPersonsAsync();
+            JArray jArray = (JArray)response.Result!;
+            persons = jArray.ToObject<List<PersonDto>>()!;
+        }
+    }
+}

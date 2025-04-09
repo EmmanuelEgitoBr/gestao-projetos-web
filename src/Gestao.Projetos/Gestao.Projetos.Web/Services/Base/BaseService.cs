@@ -63,8 +63,15 @@ public class BaseService : IBaseService
                     return new() { IsSuccess = false, Message = "Erro no servidor" };
                 default:
                     var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                    var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
-                    return apiResponseDto;
+                    var apiResponseDto = JsonConvert.DeserializeObject<object>(apiContent);
+
+                    var response = new ResponseDto()
+                    {
+                        IsSuccess = true,
+                        Result = apiResponseDto
+                    };
+
+                    return response;
             }
         }
         catch (Exception ex)
