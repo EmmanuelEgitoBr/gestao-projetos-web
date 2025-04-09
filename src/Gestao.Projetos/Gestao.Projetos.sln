@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Projetos.Api", "Gestao.Projetos.Api\Gestao.Projetos.Api.csproj", "{076AB696-D500-4DC2-9E8B-723D357CD11F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Projetos.Domain", "Gestao.Projetos.Domain\Gestao.Projetos.Domain.csproj", "{DC2B4D5C-C7F6-4A7D-9311-463218D1F18A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Projetos.Infra.MongoDb", "Gestao.Projetos.Infra.MongoDb\Gestao.Projetos.Infra.MongoDb.csproj", "{44629E99-1BCF-4F78-A38E-D583B674F167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Projetos.Application", "Gestao.Projetos.Application\Gestao.Projetos.Application.csproj", "{72857614-1A97-4908-9336-55FF82FD64FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Projetos.Web", "Gestao.Projetos.Web\Gestao.Projetos.Web.csproj", "{E5AE025D-2A7E-4A4E-9284-2F28D59C0FC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{076AB696-D500-4DC2-9E8B-723D357CD11F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{076AB696-D500-4DC2-9E8B-723D357CD11F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{076AB696-D500-4DC2-9E8B-723D357CD11F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{076AB696-D500-4DC2-9E8B-723D357CD11F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC2B4D5C-C7F6-4A7D-9311-463218D1F18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC2B4D5C-C7F6-4A7D-9311-463218D1F18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC2B4D5C-C7F6-4A7D-9311-463218D1F18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC2B4D5C-C7F6-4A7D-9311-463218D1F18A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44629E99-1BCF-4F78-A38E-D583B674F167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44629E99-1BCF-4F78-A38E-D583B674F167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44629E99-1BCF-4F78-A38E-D583B674F167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44629E99-1BCF-4F78-A38E-D583B674F167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72857614-1A97-4908-9336-55FF82FD64FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72857614-1A97-4908-9336-55FF82FD64FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72857614-1A97-4908-9336-55FF82FD64FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72857614-1A97-4908-9336-55FF82FD64FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5AE025D-2A7E-4A4E-9284-2F28D59C0FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AE025D-2A7E-4A4E-9284-2F28D59C0FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AE025D-2A7E-4A4E-9284-2F28D59C0FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AE025D-2A7E-4A4E-9284-2F28D59C0FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gestao.Projetos.Domain\Gestao.Projetos.Domain.csproj" />
+    <ProjectReference Include="..\Gestao.Projetos.Infra.MongoDb\Gestao.Projetos.Infra.MongoDb.csproj" />
+  </ItemGroup>
+
+</Project>
