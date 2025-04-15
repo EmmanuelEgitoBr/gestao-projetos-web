@@ -1,8 +1,185 @@
 ﻿@page "/projects/details/{id}"
+@using Gestao.Projetos.Web.Models
+@using Gestao.Projetos.Web.Services.Interfaces
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inject IProjectService _projectService
+@inject IPersonService _personService
+@inject ILogger<Details> Logger
 
-<h3>Details</h3>
+<h3>Informações do projeto</h3>
+<hr />
+@if (project == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else {
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="container">
+                <h5><b>@project.Title</b></h5>
+                <h6>- @project.Description</h6>
+                <div><b>Data de criação:</b> @project.CreatedDate.ToString("dd/MM/yyyy")</div>
+                <div><b>Categoria:</b> @project.Category!.CategoryName</div>
+                <div><b>SubCategorias</b></div>
+                @foreach (var subcategoria in project.Category.Subcategories!)
+                {
+                    <div class="container">
+                        <ul>
+                            <li>@subcategoria.SubcategoryName</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="container">
+                <h5><b>Equipe</b> <i class="bi bi-people-fill" style="color:saddlebrown"></i></h5>
+                @if(staff != null)
+                {
+                    @foreach(var person in staff!)
+                    {
+                        <div class="container">
+                            <ul>
+                                <li>@person.Name - @person.Position</li>
+                            </ul>
+                        </div>
+                    }
+                }
+                else{
+                    <div>
+                        Não há profissionais registrados para esse projeto.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container">
+        <button type="button" class="btn btn-success" @onclick="async () => await OpenModal()"><i class="bi bi-plus"></i> Inserir Profissional</button>
+    </div>
+    <hr />
+    <div class="container">
+        <a class="btn btn-primary mb-3" href="/project"><i class="bi bi-arrow-left"></i> Voltar</a>
+    </div>
+
+    <!-- Modal -->
+    @if (showModal)
+    {
+        <div @key="showModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Pessoas</h5>
+                        <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        @if (personsWithoutProject?.Any() == true)
+                        {
+                            <select class="form-select" @bind="PessoaSelecionadaId">
+                                <option value="">-- Selecione --</option>
+                                @foreach (var person in personsWithoutProject)
+                                {
+                                    <option value="@person.Id">@person.Name</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <p>Carregando pessoas...</p>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" @onclick="UpdatePosition">Salvar</button>
+                        <button class="btn btn-secondary" @onclick="CloseModal">Fechar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+}
 
 @code {
     [Parameter]
     public string? Id { get; set; }
+
+    ProjectDto? project;
+    List<PersonDto>? staff;
+    ResponseDto? response;
+    ResponseDto? staffResponse;
+    ResponseDto? personsResponse;
+    string? PessoaSelecionadaId;
+    private bool showModal = false;
+    private List<PersonDto>? personsWithoutProject;
+
+    protected override async Task OnInitializedAsync()
+    {
+        response = await _projectService.GetProjectByIdAsync(Id!);
+        project = JsonConvert.DeserializeObject<ProjectDto>(JsonConvert.SerializeObject(response.Result));
+
+        if(project != null)
+        {
+            await LoadStaffTeam(project!.Id!);
+        }
+
+        Logger.Log(LogLevel.Information, "Passou por Detalhes!!");
+    }
+
+    public async Task LoadStaffTeam(string projectId)
+    {
+        staffResponse = await _personService.GetPersonsByProjectIdAsync(project!.Id!);
+        JArray jArray = (JArray)staffResponse.Result!;
+        staff = jArray.ToObject<List<PersonDto>>()!;
+    }
+
+    public async Task OpenModal()
+    {
+        Logger.Log(LogLevel.Information, "Passou pelo botão");
+        showModal = true;
+        await Task.Delay(200);
+        await LoadPersonsWithoutProject();
+
+        StateHasChanged();
+    }
+
+    public void CloseModal()
+    {
+        showModal = false;
+    }
+
+    private async Task LoadPersonsWithoutProject()
+    {
+        if (project != null)
+        {
+            personsResponse = await _personService.GetPersonsWithoutProjectAsync();
+            JArray jArray = (JArray)personsResponse.Result!;
+            personsWithoutProject = jArray.ToObject<List<PersonDto>>()!;
+        }
+    }
+
+    async Task UpdatePosition()
+    {
+        if (!string.IsNullOrEmpty(PessoaSelecionadaId))
+        {
+            var result = await _personService.GetPersonByIdAsync(PessoaSelecionadaId!);
+            var person = JsonConvert.DeserializeObject<PersonDto>(JsonConvert.SerializeObject(result.Result));
+            PersonDto updatedPerson = new()
+                {
+                    Id = person!.Id,
+                    Name = person.Name,
+                    Position = person.Position,
+                    ProjectId = project!.Id
+                };
+
+            await _personService.UpdatePersonAsync(PessoaSelecionadaId, updatedPerson);
+
+            await LoadStaffTeam(project!.Id!);
+            showModal = false;
+        }
+    }
+
 }

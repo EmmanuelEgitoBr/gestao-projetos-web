@@ -22,6 +22,20 @@ public class PersonsController : ControllerBase
         return result;
     }
 
+    [HttpGet("get-by-project/{projectId}")]
+    public async Task<List<PersonDto>> GetByProjectId(string projectId)
+    {
+        var result = await _personService.GetPersonsByProjectIdAsync(projectId);
+        return result!;
+    }
+
+    [HttpGet("without-project")]
+    public async Task<List<PersonDto>> GetAllPersonsWithoutProject()
+    {
+        var result = await _personService.GetAllPersonsWithoutProjectAsync();
+        return result!;
+    }
+
     [HttpGet("{id}")]
     public async Task<PersonDto> GetById(string id)
     {

@@ -50,4 +50,18 @@ public class PersonService : IPersonService
     {
         await _personRepository.AssociateProjectToPersonAsync(personId, projectId);
     }
+
+    public async Task<List<PersonDto?>> GetPersonsByProjectIdAsync(string projectId)
+    {
+        var persons = await _personRepository.GetByProjectIdAsync(projectId);
+        var personsDto = _mapper.Map<List<PersonDto?>>(persons);
+        return personsDto;
+    }
+
+    public async Task<List<PersonDto?>> GetAllPersonsWithoutProjectAsync()
+    {
+        var persons = await _personRepository.GetAllPersonsWithoutProjectAsync();
+        var personsDto = _mapper.Map<List<PersonDto?>>(persons);
+        return personsDto;
+    }
 }

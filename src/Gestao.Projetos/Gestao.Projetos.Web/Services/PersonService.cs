@@ -53,6 +53,24 @@ public class PersonService : IPersonService
         });
     }
 
+    public async Task<ResponseDto> GetPersonsByProjectIdAsync(string projectId)
+    {
+        return await _baseService.SendAsync(new RequestDto()
+        {
+            ApiType = ApiType.GET,
+            Url = AppSettings.ApiBaseUrl + $"/api/persons/get-by-project/{projectId}"
+        });
+    }
+
+    public async Task<ResponseDto> GetPersonsWithoutProjectAsync()
+    {
+        return await _baseService.SendAsync(new RequestDto()
+        {
+            ApiType = ApiType.GET,
+            Url = AppSettings.ApiBaseUrl + $"/api/persons/without-project"
+        });
+    }
+
     public async Task<ResponseDto> UpdatePersonAsync(string id, PersonDto personDto)
     {
         var request = new RequestDto()

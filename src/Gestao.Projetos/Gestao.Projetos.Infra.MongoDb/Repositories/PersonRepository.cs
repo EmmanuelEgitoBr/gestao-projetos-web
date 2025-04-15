@@ -38,4 +38,10 @@ public class PersonRepository : IPersonRepository
         person.ProjectId = projectId;
         await _personCollection.ReplaceOneAsync(c => c.Id == personId, person);
     }
+
+    public async Task<List<Person?>> GetByProjectIdAsync(string projectId) =>
+        await _personCollection.Find(c => c.ProjectId == projectId!)!.ToListAsync()!;
+
+    public async Task<List<Person?>> GetAllPersonsWithoutProjectAsync() =>
+        await _personCollection.Find(c => c.ProjectId == null).ToListAsync()!;
 }
